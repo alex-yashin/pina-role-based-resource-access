@@ -1,0 +1,29 @@
+{
+  "name": "alex-yashin/pina-role-based-resource-access",
+  "keywords": ["php"],
+  "license": "MIT",
+  "homepage": "https://github.com/alex-yashin/pina-role-based-resource-access/",
+  "support": {
+    "issues": "https://github.com/alex-yashin/pina-role-based-resource-access/issues",
+    "source": "https://github.com/alex-yashin/pina-role-based-resource-access/"
+  },
+  "authors": [
+    {
+      "name": "Alex Yashin",
+      "email": "alex-yashin@ya.ru"
+    }
+  ],
+  "require": {
+    "php": ">=7.2",
+    "pinahq/framework": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "6.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "PinaRoleBasedResourceAccess\\": "src/"
+    }
+  },
+  "minimum-stability": "dev"
+}
