@@ -56,7 +56,7 @@ class InstallResources extends Command
         // добавляем только новые ресурсы без существующих родительских
         $data = [
             'title' => $title ?? $resource,
-            'url' => $resource,
+            'resource' => $resource,
         ];
         $resourceId = ResourceGateway::instance()->insertGetId($data);
 
