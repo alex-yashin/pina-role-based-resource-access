@@ -40,7 +40,7 @@ class InstallResources extends Command
         $normalizer = new ResourceNormalizer();
         $resource = $normalizer->normalize($resource);
 
-        $r = ResourceGateway::instance()->whereBy('resource', $resource)->debug()->first();
+        $r = ResourceGateway::instance()->whereBy('resource', $resource)->first();
         if (!empty($r)) {
             return;
         }
