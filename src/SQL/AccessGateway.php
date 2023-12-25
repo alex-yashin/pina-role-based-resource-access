@@ -35,7 +35,7 @@ class AccessGateway extends TableDataGateway
 
         $this->innerJoin(
             AccessRoleGateway::instance()
-                ->on('resource_id', 'id')
+                ->on('access_id', 'id')
                 ->innerJoin(
                     RoleGateway::instance()
                         ->alias('role_code')
@@ -46,5 +46,16 @@ class AccessGateway extends TableDataGateway
 
         $this->groupBy($this->getAlias() . '.id');
         return $this;
+    }
+
+    public function whereHasRole($code)
+    {
+        return $this->innerJoin(
+            AccessRoleGateway::instance()->on('access_id', 'id')
+                ->innerJoin(
+                    RoleGateway::instance()->on('id', 'role_id')
+                        ->onBy('code', $code)
+                )
+        );
     }
 }
