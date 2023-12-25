@@ -4,22 +4,26 @@ namespace PinaRoleBasedResourceAccess\Commands;
 
 use Pina\Command;
 use PinaRoleBasedResourceAccess\Helpers\ResourceNormalizer;
-use PinaRoleBasedResourceAccess\SQL\ResourceGateway;
+use PinaRoleBasedResourceAccess\SQL\AccessGateway;
 
 class NormalizeResources extends Command
 {
 
+    /**
+     * @param string $input
+     * @throws \Exception
+     */
     protected function execute($input = '')
     {
         $normalizer = new ResourceNormalizer();
-        $resources = ResourceGateway::instance()->get();
+        $resources = AccessGateway::instance()->get();
         foreach ($resources as $r) {
             $normalized = $normalizer->normalize($r['resource']);
             if ($normalized != $r['resource']) {
-                if (!ResourceGateway::instance()->whereBy('resource', $normalized)->exists()) {
-                    ResourceGateway::instance()->whereId($r['id'])->update(['resource' => $normalized]);
+                if (!AccessGateway::instance()->whereBy('resource', $normalized)->exists()) {
+                    AccessGateway::instance()->whereId($r['id'])->update(['resource' => $normalized]);
                 } else {
-                    ResourceGateway::instance()->whereId($r['id'])->update(['resource' => '!!!!!!!!!'.$normalized]);
+                    AccessGateway::instance()->whereId($r['id'])->update(['resource' => '!!!!!!!!!'.$normalized]);
                 }
             }
         }

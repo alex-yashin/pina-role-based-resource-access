@@ -10,7 +10,7 @@ use PinaRoleBasedResourceAccess\Types\CheckedRelation;
 use PinaRoleBasedResourceAccess\Types\ConnectionType;
 use PinaRoleBasedResourceAccess\Types\LispType;
 use PinaRoleBasedResourceAccess\Types\StyleType;
-use function PinaRoleBasedResourceAccess\__;
+use function Pina\__;
 
 class RoleGateway extends TableDataGateway
 {
@@ -34,7 +34,7 @@ class RoleGateway extends TableDataGateway
         $schema->add('lisp_condition', __('LISP формула'), LispType::class);
         $schema->add('enabled', __('Статус'), EnabledType::class);
 
-        $schema->add('resource_ids', __('Ресурсы'), new CheckedRelation(new ResourceRoleGateway(), 'role_id', 'resource_id', new ResourceGateway()));
+        $schema->add('resource_ids', __('Ресурсы'), new CheckedRelation(new AccessRoleGateway(), 'role_id', 'access_id', new AccessGateway()));
 
         return $schema;
     }
@@ -88,7 +88,7 @@ class RoleGateway extends TableDataGateway
         $list = $list->get();
         return array_merge([['id' => 0, 'title' => __('Нет')]], $list);
     }
-    
+
     public function setGroupCodeList(): array
     {
         return $this->select('code')
@@ -105,18 +105,18 @@ class RoleGateway extends TableDataGateway
 //                 ->on('role_id', 'id')
 //                 ->alias('role_element')
 //             )->groupBy('id');
-        
+
         return $this;
     }
 
     public function withResources(): RoleGateway
     {
         $this->calculate('GROUP_CONCAT(role_resource.resource_id SEPARATOR ";")', 'resources')
-            ->leftJoin(ResourceRoleGateway::instance()
-                ->on('role_id', 'id')
-                ->alias('role_resource')
+            ->leftJoin(AccessRoleGateway::instance()
+                           ->on('role_id', 'id')
+                           ->alias('role_resource')
             )->groupBy('role_resource.role_id');
-        
+
         return $this;
     }
 

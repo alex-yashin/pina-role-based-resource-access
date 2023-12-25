@@ -6,13 +6,17 @@ use Pina\App;
 use Pina\Command;
 use Pina\ModuleInterface;
 use PinaRoleBasedResourceAccess\Helpers\ResourceNormalizer;
-use PinaRoleBasedResourceAccess\SQL\ResourceGateway;
-use PinaRoleBasedResourceAccess\SQL\ResourceRoleGateway;
+use PinaRoleBasedResourceAccess\SQL\AccessGateway;
+use PinaRoleBasedResourceAccess\SQL\AccessRoleGateway;
 use PinaRoleBasedResourceAccess\SQL\RoleGateway;
 
 class InstallResources extends Command
 {
 
+    /**
+     * @param string $input
+     * @throws \Exception
+     */
     protected function execute($input = '')
     {
         $groupCode = $input;
@@ -35,19 +39,24 @@ class InstallResources extends Command
 
     }
 
+    /**
+     * @param string $resource
+     * @param string $groupCode
+     * @throws \Exception
+     */
     protected function registerResource(string $resource, string $groupCode = '')
     {
         $normalizer = new ResourceNormalizer();
         $resource = $normalizer->normalize($resource);
 
-        $r = ResourceGateway::instance()->whereBy('resource', $resource)->first();
+        $r = AccessGateway::instance()->whereBy('resource', $resource)->first();
         if (!empty($r)) {
             return;
         }
         $parts = explode('/', $resource);
 
         if (count($parts) > 1) {
-            $parent = ResourceGateway::instance()->whereLike('resource', $parts[0])->first();
+            $parent = AccessGateway::instance()->whereLike('resource', $parts[0])->first();
             if (!empty($parent)) {
                 return;
             }
@@ -55,14 +64,15 @@ class InstallResources extends Command
 
         // добавляем только новые ресурсы без существующих родительских
         $data = [
+            'type' => 'resource',
             'title' => $title ?? $resource,
             'resource' => $resource,
         ];
-        $resourceId = ResourceGateway::instance()->insertGetId($data);
+        $resourceId = AccessGateway::instance()->insertGetId($data);
 
         if ($groupCode) {
             $rootRoleId = RoleGateway::instance()->whereBy('code', $groupCode)->id();
-            ResourceRoleGateway::instance()->insertIgnore(['resource_id' => $resourceId, 'role_id' => $rootRoleId]);
+            AccessRoleGateway::instance()->insertIgnore(['resource_id' => $resourceId, 'role_id' => $rootRoleId]);
         }
 
     }

@@ -4,7 +4,7 @@ namespace PinaRoleBasedResourceAccess\Types;
 
 use Pina\TableDataGateway;
 use Pina\Types\QueryDirectoryType;
-use PinaRoleBasedResourceAccess\SQL\ResourceGateway;
+use PinaRoleBasedResourceAccess\SQL\AccessGateway;
 
 class ResourcesType extends QueryDirectoryType
 {
@@ -14,7 +14,7 @@ class ResourcesType extends QueryDirectoryType
      */
     protected function makeQuery(): TableDataGateway
     {
-        return ResourceGateway::instance()
+        return AccessGateway::instance()
             ->selectId()
             ->calculate("CONCAT(title, ' (', url, ')')", 'title')
             ->orderBy('resource', 'asc');

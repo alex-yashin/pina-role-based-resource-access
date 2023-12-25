@@ -3,15 +3,20 @@
 namespace PinaRoleBasedResourceAccess;
 
 use Pina\Access;
-use Pina\App;
-use Pina\Language;
 use Pina\ModuleInterface;
-use PinaRoleBasedResourceAccess\SQL\ResourceGateway;
+use PinaRoleBasedResourceAccess\SQL\AccessGateway;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
+use function Pina\__;
+
 class Module implements ModuleInterface
 {
+
+    public function __construct()
+    {
+        AccessTypeRegistry::set('resource', __('Разделы'));
+    }
 
     public function getPath()
     {
@@ -34,7 +39,11 @@ class Module implements ModuleInterface
      */
     public function http(): array
     {
-        $resources = ResourceGateway::instance()->resourceAccesses()->get();
+        $resources = AccessGateway::instance()
+            ->whereBy('type', 'resource')
+            ->resourceAccesses()
+            ->get();
+
         foreach ($resources as $resource) {
             if (empty($resource['roles'])) {
                 continue;
@@ -53,9 +62,4 @@ class Module implements ModuleInterface
     {
         return [];
     }
-}
-
-function __($string)
-{
-    return Language::translate($string, __NAMESPACE__);
 }
