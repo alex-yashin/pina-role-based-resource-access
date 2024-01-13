@@ -34,30 +34,9 @@ class RoleGateway extends TableDataGateway
         $schema->add('lisp_condition', __('LISP формула'), LispType::class);
         $schema->add('enabled', __('Статус'), EnabledType::class);
 
-        $schema->add('resource_ids', __('Ресурсы'), new CheckedRelation(new AccessRoleGateway(), 'role_id', 'access_id', new AccessGateway()));
+        $schema->add('access_ids', __('Ресурсы'), new CheckedRelation(new AccessRoleGateway(), 'role_id', 'access_id', new AccessGateway()));
 
         return $schema;
-    }
-
-    public function getTriggers(): array
-    {
-        return [
-            [
-                $this->getTable(),
-                'before insert',
-                "SET NEW.`order` = (SELECT IFNULL(MAX(`order`),0)+1 FROM role);"
-            ],
-        ];
-    }
-
-    public function forAccess(): RoleGateway // для совместимости с полем group таблицы content - там enum
-    {
-        $this->whereBy('code', [
-            'registered',
-            'root',
-            'support'
-        ]);
-        return $this;
     }
 
     public function whereEnabled(): RoleGateway
@@ -69,54 +48,6 @@ class RoleGateway extends TableDataGateway
     public function whereStatic(): RoleGateway
     {
         $this->whereBy('connection', 'static');
-        return $this;
-    }
-
-    public function getMaxPosition(): ?string
-    {
-        return $this->calculate('MAX(`order`)', 'max_order')->value('max_order');
-    }
-
-    public function getSimpleList($except = null): array
-    {
-        $list = $this->select('id')
-            ->select('title')
-            ->whereStatic();
-        if (!empty($except)) {
-            $list->whereNotBy('id', $except);
-        }
-        $list = $list->get();
-        return array_merge([['id' => 0, 'title' => __('Нет')]], $list);
-    }
-
-    public function setGroupCodeList(): array
-    {
-        return $this->select('code')
-            ->select('code')
-            ->get();
-    }
-
-    public function withElementsCount(): RoleGateway
-    {
-//         $this->calculate('SUM(IF(role_element.type = "currency",1,0))', 'currencies_count')
-//             ->calculate('SUM(IF(role_element.type = "resource",1,0))', 'resources_count')
-//             ->calculate('SUM(IF(role_element.type = "report",1,0))', 'reports_count')
-//             ->leftJoin(RoleElementGateway::instance()
-//                 ->on('role_id', 'id')
-//                 ->alias('role_element')
-//             )->groupBy('id');
-
-        return $this;
-    }
-
-    public function withResources(): RoleGateway
-    {
-        $this->calculate('GROUP_CONCAT(role_resource.resource_id SEPARATOR ";")', 'resources')
-            ->leftJoin(AccessRoleGateway::instance()
-                           ->on('role_id', 'id')
-                           ->alias('role_resource')
-            )->groupBy('role_resource.role_id');
-
         return $this;
     }
 

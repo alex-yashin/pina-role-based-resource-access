@@ -68,11 +68,11 @@ class InstallResources extends Command
             'title' => $title ?? $resource,
             'resource' => $resource,
         ];
-        $resourceId = AccessGateway::instance()->insertGetId($data);
+        $accessId = AccessGateway::instance()->insertGetId($data);
 
         if ($groupCode) {
             $rootRoleId = RoleGateway::instance()->whereBy('code', $groupCode)->id();
-            AccessRoleGateway::instance()->insertIgnore(['resource_id' => $resourceId, 'role_id' => $rootRoleId]);
+            AccessRoleGateway::instance()->insertIgnore(['access_id' => $accessId, 'role_id' => $rootRoleId]);
         }
 
     }
