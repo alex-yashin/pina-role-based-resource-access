@@ -2,6 +2,7 @@
 
 namespace PinaRoleBasedResourceAccess\Types;
 
+use Exception;
 use Pina\TableDataGateway;
 use Pina\Types\QueryDirectoryType;
 use PinaRoleBasedResourceAccess\SQL\AccessGateway;
@@ -10,7 +11,7 @@ class ResourcesType extends QueryDirectoryType
 {
     /**
      * @return TableDataGateway
-     * @throws \Exception
+     * @throws Exception
      */
     protected function makeQuery(): TableDataGateway
     {

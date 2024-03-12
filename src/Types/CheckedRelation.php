@@ -4,9 +4,9 @@
 namespace PinaRoleBasedResourceAccess\Types;
 
 
+use Exception;
 use Pina\App;
 use Pina\Controls\FormSelect;
-use Pina\Controls\FormStatic;
 use Pina\Html;
 use PinaRoleBasedResourceAccess\Controls\FormCheckList;
 use Pina\Types\Relation;
@@ -15,16 +15,19 @@ class CheckedRelation extends Relation
 {
     /**
      * @return FormSelect
+     * @throws Exception
      */
     protected function makeSelect()
     {
-        return App::make(FormCheckList::class);
+        $control = App::make(FormCheckList::class);
+        $control->setVariants($this->getVariants());
+        return $control;
     }
 
     /**
      * @param mixed $value
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     public function draw($value): string
     {

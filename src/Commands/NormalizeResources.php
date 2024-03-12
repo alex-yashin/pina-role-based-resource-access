@@ -2,6 +2,7 @@
 
 namespace PinaRoleBasedResourceAccess\Commands;
 
+use Exception;
 use Pina\Command;
 use PinaRoleBasedResourceAccess\Helpers\ResourceNormalizer;
 use PinaRoleBasedResourceAccess\SQL\AccessGateway;
@@ -11,7 +12,7 @@ class NormalizeResources extends Command
 
     /**
      * @param string $input
-     * @throws \Exception
+     * @throws Exception
      */
     protected function execute($input = '')
     {

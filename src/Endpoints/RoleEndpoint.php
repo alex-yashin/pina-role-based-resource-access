@@ -3,10 +3,8 @@
 namespace PinaRoleBasedResourceAccess\Endpoints;
 
 use Exception;
-use Pina\Controls\Nav;
 use Pina\Http\DelegatedCollectionEndpoint;
 use Pina\Http\Request;
-use Pina\Model\LinkedItem;
 use PinaRoleBasedResourceAccess\Collections\RoleCollection;
 use Pina\App;
 use function Pina\__;

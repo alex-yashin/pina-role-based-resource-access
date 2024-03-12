@@ -2,6 +2,7 @@
 
 namespace PinaRoleBasedResourceAccess\Commands;
 
+use Exception;
 use Pina\App;
 use Pina\Command;
 use Pina\ModuleInterface;
@@ -15,7 +16,7 @@ class InstallResources extends Command
 
     /**
      * @param string $input
-     * @throws \Exception
+     * @throws Exception
      */
     protected function execute($input = '')
     {
@@ -42,7 +43,7 @@ class InstallResources extends Command
     /**
      * @param string $resource
      * @param string $groupCode
-     * @throws \Exception
+     * @throws Exception
      */
     protected function registerResource(string $resource, string $groupCode = '')
     {
