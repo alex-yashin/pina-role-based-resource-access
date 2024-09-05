@@ -22,7 +22,7 @@ class ResourceNormalizer
         $parts = explode('/', $trimmed);
         foreach ($parts as $k => $part) {
             if (!isset($part[0])) {
-                throw new Exception("Ошибочный шаблон ресурса в Router: " . $resource);
+                throw new Exception("Ошибочный шаблон ресурса в Router: " . $resource . ' (REFERER: ' . ($_SERVER['HTTP_REFERER'] ?? '') . ')');
             }
             //чтобы не дублировать разные шаблоны с разными подстановками, все подстановки приводим к :id
             if (isset($part[0]) && $part[0] == ':') {
