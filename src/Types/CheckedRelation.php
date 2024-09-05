@@ -40,6 +40,11 @@ class CheckedRelation extends Relation
         return $r;
     }
 
+    public function play($value): string
+    {
+        return $this->draw($value);
+    }
+
     protected function drawCheck($checked)
     {
         if ($checked) {
