@@ -23,8 +23,8 @@ class RoleGateway extends TableDataGateway
      */
     public function getSchema(): Schema
     {
-        $schema = new Schema();
-        $schema->addAutoincrementPrimaryKey('id', 'ID');
+        $schema = parent::getSchema();
+        $schema->addAutoincrementPrimaryKey();
 
         $schema->add('code', __('Код'), StringType::class)->setMandatory()->setDefault(''); // для совместимости с кодом
         $schema->addUniqueKey('code');

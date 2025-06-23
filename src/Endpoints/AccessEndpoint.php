@@ -3,6 +3,7 @@
 namespace PinaRoleBasedResourceAccess\Endpoints;
 
 use Pina\App;
+use Pina\Data\DataCollection;
 use Pina\Http\DelegatedCollectionEndpoint;
 use Pina\Http\Request;
 use PinaRoleBasedResourceAccess\Collections\AccessCollection;
@@ -10,12 +11,13 @@ use function Pina\__;
 
 class AccessEndpoint extends DelegatedCollectionEndpoint
 {
-
-    public function __construct(Request $request)
+    protected function getCollectionTitle(): string
     {
-        parent::__construct($request);
-        $this->composer->configure(__("Права доступа"), __('Создать доступ'));
-        $this->collection = App::make(AccessCollection::class);
+        return __("Права доступа");
     }
 
+    protected function makeDataCollection(): DataCollection
+    {
+        return App::make(AccessCollection::class);
+    }
 }

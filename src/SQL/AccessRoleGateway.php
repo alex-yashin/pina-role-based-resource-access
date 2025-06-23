@@ -23,7 +23,7 @@ class AccessRoleGateway extends TableDataGateway
      */
     public function getSchema(): Schema
     {
-        $schema = new Schema();
+        $schema = parent::getSchema();
         $schema->add('access_id', __('Доступ'), AccessType::class)->setMandatory();
         $schema->add('role_id', __('Группа'), RoleType::class)->setMandatory();
         $schema->addCreatedAt(__('Дата создания'));

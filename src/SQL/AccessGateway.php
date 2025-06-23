@@ -19,8 +19,8 @@ class AccessGateway extends TableDataGateway
      */
     public function getSchema(): Schema
     {
-        $schema = new Schema();
-        $schema->addAutoincrementPrimaryKey('id', 'ID');
+        $schema = parent::getSchema();
+        $schema->addAutoincrementPrimaryKey();
         $schema->add('type', __('Тип доступа'), AccessTypeType::class)->setDefault('resource')->setMandatory();
         $schema->add('title', __('Название'), StringType::class)->setMandatory();
         $schema->add('resource', __('Ресурс'), StringType::class)->setMandatory();
