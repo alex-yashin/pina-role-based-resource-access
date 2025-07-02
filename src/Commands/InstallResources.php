@@ -27,7 +27,7 @@ class InstallResources extends Command
         foreach ($modules as $module) {
             /** @var ModuleInterface $module */
             if (method_exists($module, "initRouter")) {
-                $resources = array_merge($resources, $module->initRouter());
+                $resources = array_merge($resources, $module->initRouter() ?? []);
             }
         }
 
