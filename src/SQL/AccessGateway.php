@@ -6,6 +6,7 @@ use Exception;
 use Pina\Data\Schema;
 use Pina\TableDataGateway;
 use Pina\Types\StringType;
+use PinaRoleBasedResourceAccess\Types\AccessRoleRelation;
 use PinaRoleBasedResourceAccess\Types\AccessTypeType;
 use PinaRoleBasedResourceAccess\Types\CheckedRelation;
 use function Pina\__;
@@ -22,10 +23,10 @@ class AccessGateway extends TableDataGateway
         $schema = parent::getSchema();
         $schema->addAutoincrementPrimaryKey();
         $schema->add('type', __('Тип доступа'), AccessTypeType::class)->setDefault('resource')->setMandatory();
-        $schema->add('title', __('Название'), StringType::class)->setMandatory();
         $schema->add('resource', __('Ресурс'), StringType::class)->setMandatory();
         $schema->addUniqueKey(['type', 'resource']);
-        $schema->add('role_ids', __('Роли'), new CheckedRelation(new AccessRoleGateway(), 'access_id', 'role_id', new RoleGateway()));
+        $schema->add('title', __('Название'), StringType::class)->setMandatory();
+        $schema->add('role_ids', __('Роли'), new AccessRoleRelation());
         return $schema;
     }
 
