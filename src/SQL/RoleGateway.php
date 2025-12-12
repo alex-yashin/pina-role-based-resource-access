@@ -15,7 +15,10 @@ use function Pina\__;
 
 class RoleGateway extends TableDataGateway
 {
-    protected static $table = 'role';
+    public function getTable(): string
+    {
+        return 'role';
+    }
 
     /**
      * @return Schema

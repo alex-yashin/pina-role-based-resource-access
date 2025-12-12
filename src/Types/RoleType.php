@@ -6,7 +6,6 @@ use Pina\App;
 use Pina\TableDataGateway;
 use Pina\Types\QueryDirectoryType;
 use PinaRoleBasedResourceAccess\Controls\LabeledText;
-use PinaRoleBasedResourceAccess\SQL\AccessGateway;
 use PinaRoleBasedResourceAccess\SQL\RoleGateway;
 
 class RoleType extends QueryDirectoryType

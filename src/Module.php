@@ -2,7 +2,7 @@
 
 namespace PinaRoleBasedResourceAccess;
 
-use Pina\Access;
+use Pina\App;
 use Pina\ModuleInterface;
 use PinaRoleBasedResourceAccess\SQL\AccessGateway;
 use Psr\Container\ContainerExceptionInterface;
@@ -48,7 +48,7 @@ class Module implements ModuleInterface
             if (empty($resource['roles'])) {
                 continue;
             }
-            Access::permit($resource['resource'], $resource['roles']);
+            App::access()->permit($resource['resource'], $resource['roles']);
         }
 
         return $this->initRouter();

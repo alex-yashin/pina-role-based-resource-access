@@ -6,7 +6,6 @@ use Exception;
 use Pina\Data\Schema;
 use Pina\DB\ForeignKey;
 use Pina\TableDataGateway;
-use Pina\Types\IntegerType;
 use PinaRoleBasedResourceAccess\Types\AccessType;
 
 use PinaRoleBasedResourceAccess\Types\RoleType;
@@ -15,7 +14,10 @@ use function Pina\__;
 
 class AccessRoleGateway extends TableDataGateway
 {
-    protected static $table = 'access_role';
+    public function getTable(): string
+    {
+        return 'access_role';
+    }
 
     /**
      * @return Schema

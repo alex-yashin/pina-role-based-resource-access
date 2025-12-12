@@ -5,7 +5,6 @@ namespace PinaRoleBasedResourceAccess\Endpoints;
 use Pina\App;
 use Pina\Data\DataCollection;
 use Pina\Http\DelegatedCollectionEndpoint;
-use Pina\Http\Request;
 use PinaRoleBasedResourceAccess\Collections\AccessCollection;
 use function Pina\__;
 

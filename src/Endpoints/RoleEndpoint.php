@@ -2,10 +2,8 @@
 
 namespace PinaRoleBasedResourceAccess\Endpoints;
 
-use Exception;
 use Pina\Data\DataCollection;
 use Pina\Http\DelegatedCollectionEndpoint;
-use Pina\Http\Request;
 use PinaRoleBasedResourceAccess\Collections\RoleCollection;
 use Pina\App;
 use function Pina\__;

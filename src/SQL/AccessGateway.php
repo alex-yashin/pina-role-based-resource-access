@@ -8,12 +8,14 @@ use Pina\TableDataGateway;
 use Pina\Types\StringType;
 use PinaRoleBasedResourceAccess\Types\AccessRoleRelation;
 use PinaRoleBasedResourceAccess\Types\AccessTypeType;
-use PinaRoleBasedResourceAccess\Types\CheckedRelation;
 use function Pina\__;
 
 class AccessGateway extends TableDataGateway
 {
-    protected static $table = 'access';
+    public function getTable(): string
+    {
+        return 'access';
+    }
 
     /**
      * @throws Exception

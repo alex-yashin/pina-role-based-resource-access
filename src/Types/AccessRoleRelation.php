@@ -3,6 +3,7 @@
 namespace PinaRoleBasedResourceAccess\Types;
 
 use Pina\Access;
+use Pina\App;
 use Pina\Html;
 use PinaRoleBasedResourceAccess\SQL\AccessRoleGateway;
 use PinaRoleBasedResourceAccess\SQL\RoleGateway;
@@ -52,7 +53,7 @@ class AccessRoleRelation extends CheckedRelation
 
     protected function expandWithForcedGroups($codes)
     {
-        $codes = array_unique(array_merge($codes, Access::getPermittedGroups($this->resource)));
+        $codes = array_unique(array_merge($codes, App::access()->getPermittedGroups($this->resource)));
 
         return RoleGateway::instance()->whereBy('code', $codes)->column('title');
     }
