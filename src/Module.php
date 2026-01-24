@@ -2,6 +2,7 @@
 
 namespace PinaRoleBasedResourceAccess;
 
+use Pina\Access;
 use Pina\App;
 use Pina\ModuleInterface;
 use PinaRoleBasedResourceAccess\SQL\AccessGateway;
@@ -16,6 +17,20 @@ class Module implements ModuleInterface
     public function __construct()
     {
         AccessTypeRegistry::set('resource', __('Разделы'));
+
+        App::onLoad(Access::class, function(Access $access) {
+            $resources = AccessGateway::instance()
+                ->whereBy('type', 'resource')
+                ->resourceAccesses()
+                ->get();
+
+            foreach ($resources as $resource) {
+                if (empty($resource['roles'])) {
+                    continue;
+                }
+                $access->permit($resource['resource'], $resource['roles']);
+            }
+        });
     }
 
     public function getPath()
@@ -33,33 +48,4 @@ class Module implements ModuleInterface
         return 'Role Based Resource Access';
     }
 
-    /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
-    public function http(): array
-    {
-        $resources = AccessGateway::instance()
-            ->whereBy('type', 'resource')
-            ->resourceAccesses()
-            ->get();
-
-        foreach ($resources as $resource) {
-            if (empty($resource['roles'])) {
-                continue;
-            }
-            App::access()->permit($resource['resource'], $resource['roles']);
-        }
-
-        return $this->initRouter();
-    }
-
-    public function cli()
-    {
-    }
-
-    public function initRouter()
-    {
-        return [];
-    }
 }
