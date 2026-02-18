@@ -2,10 +2,10 @@
 
 namespace PinaRoleBasedResourceAccess\Endpoints;
 
-use Pina\App;
 use Pina\Data\DataCollection;
+use Pina\Data\QueryDataCollection;
 use Pina\Http\DelegatedCollectionEndpoint;
-use PinaRoleBasedResourceAccess\Collections\AccessCollection;
+use PinaRoleBasedResourceAccess\SQL\AccessGateway;
 use function Pina\__;
 
 class AccessEndpoint extends DelegatedCollectionEndpoint
@@ -17,6 +17,6 @@ class AccessEndpoint extends DelegatedCollectionEndpoint
 
     protected function makeDataCollection(): DataCollection
     {
-        return App::make(AccessCollection::class);
+        return new QueryDataCollection(AccessGateway::instance());
     }
 }
