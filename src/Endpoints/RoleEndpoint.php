@@ -19,4 +19,10 @@ class RoleEndpoint extends DelegatedCollectionEndpoint
     {
         return new QueryDataCollection(RoleGateway::instance());
     }
+
+    protected function makeExportDataCollection(): ?DataCollection
+    {
+        return $this->makeDataCollection();
+    }
+
 }

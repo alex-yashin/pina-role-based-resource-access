@@ -19,4 +19,10 @@ class AccessEndpoint extends DelegatedCollectionEndpoint
     {
         return new QueryDataCollection(AccessGateway::instance());
     }
+
+    protected function makeExportDataCollection(): ?DataCollection
+    {
+        return $this->makeDataCollection();
+    }
+
 }
